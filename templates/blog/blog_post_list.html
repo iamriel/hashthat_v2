@@ -1,0 +1,64 @@
+{% extends "blog/blog_base.html" %}
+{% load pages_tags i18n future mezzanine_tags blog_tags keyword_tags disqus_tags %}
+
+{% block main %}
+{{ block.super }}
+{% endblock %}
+
+{% block left_content %}
+{{ block.super }}
+<div class="entries">
+{% for blog_post in blog_posts.object_list %}
+    <article class="entry style-media media type-post">
+        {% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+        <figure class="media-object pull-left entry-thumbnail hidden-xs">
+            <!-- to disable lazy loading, remove data-src and data-src-retina -->
+            <img src="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 230 230 %}" data-src="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 230 230 %}" data-src-retina="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 230 230 %}" width="230" height="230" class="" alt="">
+
+            <!--fallback for no javascript browsers-->
+            <noscript>
+                <img src="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 230 230 %}" alt="">
+            </noscript>
+
+        </figure>
+        {% endif %}
+        <div class="media-body">
+            <header class="entry-header">
+                {% editable blog_post.title %}
+                <h3 class="entry-title">
+                    <a href="{{ blog_post.get_absolute_url }}" rel="bookmark">{{ blog_post.title }}</a>
+                </h3>
+                {% endeditable %}
+                <div class="entry-meta">
+                    {% with blog_post.user as author %}
+                    <span class="author">by <a href="{% url "blog_post_list_author" author %}">{{ author.get_full_name|default:author.username }}</a></span>
+                    {% endwith %}
+
+                    <span class="entry-date"><a href="blog.html"><time>{% blocktrans with sometime=blog_post.publish_date|timesince %}{{ sometime }} ago{% endblocktrans %}</time></a></span>
+
+                    {% with blog_post.categories.all as categories %}
+                    <span class="category">
+                    {% if categories %}
+                    {% trans "In" %}
+                    {% for category in categories %}
+                    <a href="{% url "blog_post_list_category" category.slug %}">{{ category }}</a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                    {% endif %}</span>
+                    {% endwith %}
+                </div>
+            </header>
+            {% editable blog_post.content %}
+            <p>
+               {{ blog_post.description_from_content|safe }}
+                <a href="{{ blog_post.get_absolute_url }}" class="more-link">Continue Reading<i class="icon icon-long-arrow-right"></i></a>
+            </p>
+            {% endeditable %}
+        </div>
+    </article>
+{% endfor %}
+</div><!--/.entris-->
+
+<ul class="pagination">
+    {% pagination_for blog_posts %}
+</ul>
+{% endblock %}

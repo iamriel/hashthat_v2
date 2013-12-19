@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+{% load pages_tags i18n future mezzanine_tags blog_tags keyword_tags disqus_tags %}
+
+{% block meta_title %}{% if page %}{{ page.richtextpage.meta_title }}{% else %}{% trans "Blog" %}{% endif %}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+{% keywords_for page as keywords %}
+{% for keyword in keywords %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ page.description }}
+{% endmetablock %}{% endblock %}
+
+{% block title %}
+{% if page %}
+{% editable page.title %}{{ page.title }}{% endeditable %}
+{% else %}
+{% trans "Blog" %}
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<div id="content" class="content section row">
+    <div class="col-md-8 bg-base col-lg-8 col-xl-9">
+        {% block left_content %}
+        <div class="ribbon ribbon-highlight">
+            <ol class="breadcrumb ribbon-inner">
+                {% spaceless %}
+                {% block breadcrumb %}
+                {% page_menu "pages/menus/breadcrumb.html" %}
+                {% endblock %}
+                {% endspaceless %}
+            </ol>
+        </div>
+        {% endblock %}
+    </div><!--/.col-md-8.col-lg-8.col-xl-9-->
+
+    <div class="sidebar col-md-4 col-lg-4 col-xl-3">
+        <aside class="widget">
+            <h2 class="widget-title ribbon"><span>Featured Posts</span></h2>
+            <div class="entries row">
+                <article class="type-post style-media-list media col-sm-6 col-md-12">
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/80x80" data-src-retina="http://placehold.it/160x160" width="80" height="80" class="media-object pull-left" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/80x80" alt="">
+                    </noscript>
+
+                    <div class="media-body">
+                        <h3  class="entry-title">
+                            <a href="single.html" rel="bookmark">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</a>
+                        </h3>
+                        <div class="entry-meta">
+                            <span class="entry-date"><a href="blog.html">on <time datetime="2013-07-04T23:26:34+00:00">September 20 2013</time></a></span>
+                            <span class="category">In <a href="blog.html">Technology</a></span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </aside><!--/.widget-->
+        <aside id="reviewCarousel" class="widget carousel slide">
+
+            <h2 class="widget-title ribbon"><span>Latest Review</span></h2>
+
+            <div class="carousel-inner">
+                <div class="item active">
+
+                    <article class="entry style-grid style-review type-post">
+        
+                        <header class="entry-header">
+                            <h3 class="entry-title"><a href="single.html">xPhone 5s Review</a> </h3>
+                            <p class="small">Excepteur sint occaecat cupidatat non proident</p>
+                        </header>
+
+                        <div class="style-review-score">
+                            81
+                        </div>
+                                    
+                        <figure class="entry-thumbnail">
+
+                            <a href="single.html" class="overlay overlay-primary"></a>
+
+                            <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                            <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/480x280" data-src-retina="http://placehold.it/720x420" width="480" height="280" alt="">
+
+                            <!--fallback for no javascript browsers-->
+                            <noscript>
+                                <img src="http://placehold.it/720x420" alt="">
+                            </noscript>
+
+                        </figure>
+
+                    </article>
+
+                </div><!--/.item.active-->
+
+                <div class="item">
+                    
+                    <article class="entry style-grid style-review type-post">
+        
+                        <header class="entry-header">
+                            <h3 class="entry-title"><a href="single.html">xPhone 5s Review</a> </h3>
+                            <p class="small">Excepteur sint occaecat cupidatat non proident</p>
+                        </header>
+
+                        <div class="style-review-score">
+                            80
+                        </div>
+                                    
+                        <figure class="entry-thumbnail">
+
+                            <a href="single.html" class="overlay overlay-primary"></a>
+
+                            <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                            <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/480x280" data-src-retina="http://placehold.it/720x420" width="480" height="280" alt="">
+
+                            <!--fallback for no javascript browsers-->
+                            <noscript>
+                                <img src="http://placehold.it/720x420" alt="">
+                            </noscript>
+
+                        </figure>
+
+                    </article>
+
+                </div><!--/.item.active-->
+
+            </div><!--/.carousel-inner-->
+
+            <a class="left carousel-control" href="#reviewCarousel" data-slide="prev">
+                <span class="icon icon-angle-left"></span>
+            </a>
+            <a class="right carousel-control" href="#reviewCarousel" data-slide="next">
+                <span class="icon icon-angle-right"></span>
+            </a>
+
+        </aside><!--/.widget.carousel-->
+        
+        <aside class="widget">
+
+            <h2 class="widget-title ribbon"><span>What's Hot</span></h2>
+
+            <div class="entries row">
+
+                <article class="type-post style-media-list media col-sm-6 col-md-12">
+
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/80x80" data-src-retina="http://placehold.it/160x160" width="80" height="80" class="media-object pull-left" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/80x80" alt="">
+                    </noscript>
+
+                    <div class="media-body">
+                        <h3  class="entry-title">
+                            <a href="single.html" rel="bookmark">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</a>
+                        </h3>
+                        <div class="entry-meta">
+                            <span class="entry-date"><a href="blog.html">on <time datetime="2013-07-04T23:26:34+00:00">September 20 2013</time></a></span>
+                            <span class="category">In <a href="blog.html">Technology</a></span>
+                        </div>
+                    </div>
+
+                </article>
+
+                <article class="type-post style-media-list media col-sm-6 col-md-12">
+
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/80x80" data-src-retina="http://placehold.it/160x160" width="80" height="80" class="media-object pull-left" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/80x80" alt="">
+                    </noscript>
+
+                    <div class="media-body">
+                        <h3  class="entry-title">
+                            <a href="single.html" rel="bookmark">Duis aute irure dolor in reprehenderit in voluptate velit esse.</a>
+                        </h3>
+                        <div class="entry-meta">
+                            <span class="entry-date"><a href="blog.html">on <time datetime="2013-07-04T23:26:34+00:00">September 20 2013</time></a></span>
+                            <span class="category">In <a href="blog.html">Technology</a></span>
+                        </div>
+                    </div>
+
+                </article>
+
+                <article class="type-post style-media-list media col-sm-6 col-md-12">
+
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/80x80" data-src-retina="http://placehold.it/160x160" width="80" height="80" class="media-object pull-left" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/80x80" alt="">
+                    </noscript>
+
+                    <div class="media-body">
+                        <h3  class="entry-title">
+                            <a href="single.html" rel="bookmark">Excepteur sint occaecat cupidatat non proident.</a>
+                        </h3>
+                        <div class="entry-meta">
+                            <span class="entry-date"><a href="blog.html">on <time datetime="2013-07-04T23:26:34+00:00">September 20 2013</time></a></span>
+                            <span class="category">In <a href="blog.html">Technology</a></span>
+                        </div>
+                    </div>
+
+                </article>
+
+                <article class="type-post style-media-list media col-sm-6 col-md-12">
+
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/80x80" data-src-retina="http://placehold.it/160x160" width="80" height="80" class="media-object pull-left" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/80x80" alt="">
+                    </noscript>
+
+                    <div class="media-body">
+                        <h3  class="entry-title">
+                            <a href="single.html" rel="bookmark">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</a>
+                        </h3>
+                        <div class="entry-meta">
+                            <span class="entry-date"><a href="blog.html">on <time datetime="2013-07-04T23:26:34+00:00">September 20 2013</time></a></span>
+                            <span class="category">In <a href="blog.html">Technology</a></span>
+                        </div>
+                    </div>
+
+                </article>
+
+                <article class="type-post style-media-list media col-sm-6 col-md-12">
+
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="{{ STATIC_URL }}img/placeholder.gif" data-src="http://placehold.it/80x80" data-src-retina="http://placehold.it/160x160" width="80" height="80" class="media-object pull-left" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/80x80" alt="">
+                    </noscript>
+
+                    <div class="media-body">
+                        <h3  class="entry-title">
+                            <a href="single.html" rel="bookmark">Duis aute irure dolor in reprehenderit in voluptate velit esse.</a>
+                        </h3>
+                        <div class="entry-meta">
+                            <span class="entry-date"><a href="blog.html">on <time datetime="2013-07-04T23:26:34+00:00">September 20 2013</time></a></span>
+                            <span class="category">In <a href="blog.html">Technology</a></span>
+                        </div>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </aside><!--/.widget-->
+
+        <aside class="widget">
+
+            <h3 class="widget-title ribbon"><span>Latest Discussion</span></h3>
+
+            <ul class="entries">
+
+                <li class="entry style-recent-list type-post">
+
+                    <span class="comments-count-balloon">900</span>
+                    <a href="single.html" rel="bookmark" class="entry-title">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</a>
+
+                </li>
+
+                <li class="entry style-recent-list type-post">
+
+                    <span class="comments-count-balloon">860</span>
+                    <a href="single.html" rel="bookmark" class="entry-title">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
+                            
+                </li>
+
+                <li class="entry style-recent-list type-post">
+
+                    <span class="comments-count-balloon">1234</span>
+                    <a href="single.html" rel="bookmark" class="entry-title">In voluptate velit esse cillum dolore eu fugiat nulla pariatur.</a>
+                            
+                </li>
+
+                <li class="entry style-recent-list type-post">
+
+                    <span class="comments-count-balloon">90</span>
+                    <a href="single.html" rel="bookmark" class="entry-title">Duis aute irure dolor in reprehenderit.</a>
+                            
+                </li>
+
+                <li class="entry style-recent-list type-post">
+
+                    <span class="comments-count-balloon">8</span>
+                    <a href="single.html" rel="bookmark" class="entry-title">Utempor incididunt ut labore et dolore magna aliqua.</a>
+                            
+                </li>
+
+            </ul>
+
+        </aside><!--/.widget-->
+
+        <aside class="widget">
+
+            <h3 class="widget-title ribbon"><span>Special Coverage</span></h3>
+
+            <ul class="entries coverageList aligncenter">
+                <li><a href="blog.html">#xPhone launch event</a></li>
+                <li><a href="blog.html">#WCDC 2013</a></li>
+                <li><a href="blog.html">#Nokiem bought by Macrosoft</a></li>
+                <li><a href="blog.html">#Blueberry JUMP 2013</a></li>
+                <li><a href="blog.html">#CONFEST 2013</a></li>
+                <li><a href="blog.html">#Ullamco laboris nisi ut. </a></li>
+                <li><a href="blog.html">#Eliquip ex ea commodo consequat.</a></li>
+                <li><a href="blog.html">#Duis aute irure dolor in.</a></li>
+                <li><a href="blog.html">#Reprehenderit in voluptate</a></li>
+                <li><a href="blog.html">#Velit esse Ullamco laboris.</a></li>
+            </ul>
+
+        </aside><!--/.widget-->
+
+        <aside class="widget">
+
+            <h3 class="widget-title ribbon"><span>Tags</span></h3>
+
+            <div class="tagcloud">
+                <a href="#">Some</a>
+                <a href="#">Tag</a>
+                <a href="#">Goes</a>
+                <a href="#">Here</a>
+                <a href="#">Utempor</a>
+                <a href="#">Incididunt</a>
+                <a href="#">Labore</a>
+                <a href="#">Dolore</a>
+                <a href="#">Magna</a>
+                <a href="#">Aliqua</a>
+                <a href="#">Seddo</a> 
+                <a href="#">Siusmod</a>
+                <a href="#">Tempor</a>
+                <a href="#">Incididunt</a>
+                <a href="#">Ut labore</a>
+                <a href="#">Et dolore </a>
+                <a href="#">Magna </a>
+                <a href="#">Aliqua</a>
+            </div>
+
+        </aside><!--/.widget-->
+
+    </div><!--/.sidebar col-md-4 col-lg-4 col-xl-3-->
+
+</div><!--/#content-->
+
+{% endblock %}

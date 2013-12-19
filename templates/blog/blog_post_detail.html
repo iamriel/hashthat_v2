@@ -1,0 +1,520 @@
+{% extends "blog/blog_base.html" %}
+{% load pages_tags mezzanine_tags comment_tags keyword_tags rating_tags i18n future disqus_tags humanize %}
+
+{% block title %}
+{% editable blog_post.title %}{{ blog_post.title }}{% endeditable %}
+{% endblock %}
+
+{% block main %}
+{{ block.super }}
+{% endblock %}
+
+{% block left_content %}
+{{ block.super }}
+<header class="page-header">
+    <div class="page-meta pull-right hidden-xs">
+        <a href="#comments">
+            <span class="comments-count-balloon bg-primary">{% spaceless %}{% blocktrans count comments_count=blog_post.comments_count %}{{ comments_count }}<em>Comment</em>{% plural %}{{ comments_count }} <em>Comment</em>{% endblocktrans %}{% endspaceless %}</span>
+        </a>
+    </div>
+    {% editable blog_post.title %}
+    <h2 class="page-title">
+        {{ blog_post.title }}
+    </h2>
+    {% endeditable %}
+</header>
+
+<article class="entry style-single type-post">
+    {% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+    <figure class="entry-thumbnail">
+        <!-- to disable lazy loading, remove data-src and data-src-retina -->
+        <img src="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 680 452 %}" data-src="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 680 452 %}" data-src-retina="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 680 452 %}" width="680" height="452" alt="">
+
+        <!--fallback for no javascript browsers-->
+        <noscript>
+            <img src="http://placehold.it/680x452" alt="">
+        </noscript>
+    </figure>
+    {% endif %}
+    <div class="entry-meta indented">
+        {% with blog_post.user as author %}
+        <span class="author">by <a href="blog.html">{{ author.get_full_name|default:author.username }}</a></span>
+        {% endwith %}
+        <span class="entry-date"><a href="blog.html">on <time datetime="{{ blog_post.publish_date }}">{{ blog_post.publish_date }}</time></a></span>
+        {% with blog_post.categories.all as categories %}
+        {% if categories %}
+        <span class="category">{% trans "In" %}
+        {% for category in categories %}
+        <a href="{% url "blog_post_list_category" category.slug %}">{{ category }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        </span>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="entry-content indented">
+        {% editable blog_post.content %}
+        {{ blog_post.content|richtext_filters|safe }}
+        {% endeditable %}
+
+        <!-- 
+        sample for adding full image
+        <figure class="image image-full">
+
+            <img src="../img/placeholder.gif" data-src="http://placehold.it/680x452" data-src-retina="http://placehold.it/1024x680" width="680" height="452" alt="">
+
+            <noscript>
+                <img src="http://placehold.it/680x452" alt="">
+            </noscript>
+
+        </figure> -->
+        <h3>Verdict</h3>
+        <p>
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+        </p>
+
+        <h3>Score</h3>
+        <ul class="entries">
+            <li class="entry style-score-widget">
+                <div class="score-value">81</div>
+                <div class="score-label entry-title"><a href="single-full.html">Design</a></div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 81%;">
+                    </div>
+                </div>
+            </li>
+            <li class="entry style-score-widget">
+                <div class="score-value">80</div>
+                <div class="score-label entry-title"><a href="single-full.html">Functionality</a></div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                    </div>
+                </div>
+            </li>
+            <li class="entry style-score-widget">
+                <div class="score-value">76</div>
+                <div class="score-label entry-title"><a href="single-full.html">Performance</a></div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+    </div>
+
+</article>
+
+<div class="after-entry indented">
+
+    <hr>
+
+
+    <aside class="widget post-tags">
+        <i class="icon-tags"></i> Tags:
+        <a href="#"> Some</a>
+        <a href="#"> Goes</a>
+        <a href="#"> Here</a>
+        <a href="#"> For</a>
+        <a href="#"> Sure</a>
+    </aside> 
+
+    <hr>
+
+    <aside class="widget widget-author media">
+        
+        <figure class="entry-author-avatar media-object avatar pull-left">
+            <!-- to disable lazy loading, remove data-src and data-src-retina -->
+            <img src="../img/placeholder.gif" data-src="http://placehold.it/230x230" data-src-retina="http://placehold.it/460x460" width="230" height="230" class="img-circle" alt="">
+
+            <!--fallback for no javascript browsers-->
+            <noscript>
+                <img src="http://placehold.it/230x230" alt="">
+            </noscript>
+        </figure>
+
+        <div class="media-body">
+            <h4 class="entry-author-name">By <a href="blog.html">John Doe</a></h4>
+
+            <p>
+                Deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. 
+            </p>
+
+        </div>
+
+    </aside>
+
+    <hr>
+
+    <aside class="widget">
+
+        <h4 class="widget-title">Related Posts</h4>
+
+        <div class="entries row">
+
+            <article class="entry type-post style-thumbnail col-xs-3 col-sm-3">
+
+                <figure class="entry-thumbnail">
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="../img/placeholder.gif" data-src="http://placehold.it/230x230" data-src-retina="http://placehold.it/460x460" width="230" height="230" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/230x230" alt="">
+                    </noscript>
+                </figure>
+
+                <h3 class="entry-title"><a href="single.html">Sed ut perspiciatis unde omnis.</a> </h3>
+
+                    
+            </article>
+
+            <article class="entry type-post style-thumbnail col-xs-3 col-sm-3">
+
+                <figure class="entry-thumbnail">
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="../img/placeholder.gif" data-src="http://placehold.it/230x230" data-src-retina="http://placehold.it/460x460" width="230" height="230" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/230x230" alt="">
+                    </noscript>
+                </figure>
+
+                <h3 class="entry-title"><a href="single.html">Oomnis iste natus error sit voluptatem.</a> </h3>
+
+                
+            </article>
+
+            <article class="entry type-post style-thumbnail col-xs-3 col-sm-3">
+
+                <figure class="entry-thumbnail">
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="../img/placeholder.gif" data-src="http://placehold.it/230x230" data-src-retina="http://placehold.it/460x460" width="230" height="230" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/230x230" alt="">
+                    </noscript>
+                </figure>
+
+                <h3 class="entry-title"><a href="single.html">Temporibus autem quibusdam.</a> </h3>
+
+                
+            </article>
+
+            <article class="entry type-post style-thumbnail col-xs-3 col-sm-3">
+
+                <figure class="entry-thumbnail">
+                    <!-- to disable lazy loading, remove data-src and data-src-retina -->
+                    <img src="../img/placeholder.gif" data-src="http://placehold.it/230x230" data-src-retina="http://placehold.it/460x460" width="230" height="230" alt="">
+
+                    <!--fallback for no javascript browsers-->
+                    <noscript>
+                        <img src="http://placehold.it/230x230" alt="">
+                    </noscript>
+                </figure>
+
+                <h3 class="entry-title"><a href="single.html">Siste natus error sit voluptatem.</a> </h3>
+
+                
+            </article>
+
+        </div>
+
+    </aside>
+
+    <hr>
+
+    <aside class="widget">
+        Share:
+        <a href="#" class="" onclick="window.open(
+            'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
+            'facebook-share-dialog', 
+            'width=626,height=436'); 
+            return false;"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-facebook icon-light"></i></span></a>
+        <a href="#" class="" onclick="window.open(
+            'http://twitter.com/home?status='+encodeURIComponent(location.href), 
+            'facebook-share-dialog', 
+            'width=626,height=436'); 
+            return false;"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-twitter icon-light"></i></span></a>
+        <a href="#" class="" onclick="window.open(
+            'https://plus.google.com/share?url='+encodeURIComponent(location.href), 
+            'facebook-share-dialog', 
+            'width=500,height=436'); 
+            return false;"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-google-plus icon-light"></i></span></a>
+        <a href="#" class="" onclick="javascript:void((function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)})());"><span class="icon-stack"><i class="icon-sign-blank icon-stack-base"></i><i class="icon-pinterest icon-light"></i></span></a>
+    </aside> 
+
+</div>
+
+<div id="comments" class="comments-area indented">
+
+    <h4 class="comments-title">Comments</h4>
+
+    <ol class="media-list comment-list">
+        <li class="media comment">
+
+            <img src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=74" width="74" height="74" alt="" class="avatar media-object pull-left img-circle">
+
+            <div class="media-body">
+
+                <h4 class="media-heading author-vcard">
+                    <cite class="fn"><a href="#" rel="external nofollow" class="url">Mr John Doe</a></cite> 
+                    <span class="comment-meta commentmetadata">on <a href="#">July 8, 2013 at 7:46 am</a></span>
+                </h4>
+                <p>Hi, this is a comment. enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+
+            </div>
+
+            <ol class="media-list">
+
+                <li class="media comment">
+
+                    <img src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=74" width="74" height="74" alt="" class="avatar media-object pull-left img-circle">
+
+                    <div class="media-body">
+
+                        <h4 class="media-heading author-vcard">
+                            <cite class="fn"><a href="#" rel="external nofollow" class="url">Mr John Doe</a></cite> 
+                            <span class="comment-meta commentmetadata"> on <a href="#">July 8, 2013 at 7:46 am</a></span>
+                        </h4>
+
+                        <p>Hi, this is a comment. enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+
+                    </div>
+
+                </li>
+
+                <li class="media comment">
+
+                    <img src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=74" width="74" height="74" alt="" class="avatar media-object pull-left img-circle">
+
+                    <div class="media-body">
+
+                        <h4 class="media-heading author-vcard">
+                            <cite class="fn"><a href="#" rel="external nofollow" class="url">Mr John Doe</a></cite> 
+                            <span class="comment-meta commentmetadata"> on <a href="#">July 8, 2013 at 7:46 am</a></span>
+                        </h4>
+
+                        <p>Hi, this is a comment. enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+
+                    </div>
+
+                    <ol class="media-list">
+                        <li class="media comment">
+
+                            <img src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=74" width="74" height="74" alt="" class="avatar media-object pull-left img-circle">
+
+                            <div class="media-body">
+
+                                <h4 class="media-heading author-vcard">
+                                    <cite class="fn"><a href="#" rel="external nofollow" class="url">Mr John Doe</a></cite> 
+                                    <span class="comment-meta commentmetadata">on <a href="#">July 8, 2013 at 7:46 am</a></span>
+                                </h4>
+
+                                <p>Hi, this is a comment. enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+                            </div>
+
+                        </li>
+
+                        <li class="media comment">
+
+                            <img src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=74" width="74" height="74" alt="" class="avatar media-object pull-left img-circle">
+
+                            <div class="media-body">
+
+                                <h4 class="media-heading author-vcard">
+                                    <cite class="fn"><a href="#" rel="external nofollow" class="url">Mr John Doe</a></cite> 
+                                    <span class="comment-meta commentmetadata">on <a href="#">July 8, 2013 at 7:46 am</a></span>
+                                </h4>
+
+                                <p>Hi, this is a comment. enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+                            </div>
+
+                        </li>
+
+                    </ol>
+
+                </li>
+
+            </ol>
+
+        </li>
+        <li class="media comment">
+
+            <img src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=74" width="74" height="74" alt="" class="avatar media-object pull-left img-circle">
+
+            <div class="media-body">
+
+                <h4 class="media-heading author-vcard">
+                    <cite class="fn"><a href="#" rel="external nofollow" class="url">Mr John Doe</a></cite> 
+                    <span class="comment-meta commentmetadata">on <a href="#">July 8, 2013 at 7:46 am</a></span>
+                </h4>
+                <p>Hi, this is a comment. enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+
+            </div>
+
+        </li>
+        <li class="media comment">
+
+            <img src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=74" width="74" height="74" alt="" class="avatar media-object pull-left img-circle">
+
+            <div class="media-body">
+                                
+                <h4 class="media-heading author-vcard">
+                    <cite class="fn"><a href="#" rel="external nofollow" class="url">Mr John Doe</a></cite> 
+                    <span class="comment-meta commentmetadata">on <a href="#">July 8, 2013 at 7:46 am</a></span>
+                </h4>
+                <p>Hi, this is a comment. enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+
+            </div>
+
+        </li>
+    </ol>
+
+    <div id="respond" class="comments-respond">
+
+        <h3 id="reply-title" class="comment-reply-title">Leave a Reply</h3>
+
+        <form action="#" class="form-inline row" method="post" id="commentform">
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <label class="sr-only" for="inputName">Name</label>
+                <input class="form-control" id="inputName" name="author" type="text" value="" aria-required="true" placeholder="Your Name">
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <label class="sr-only" for="inputEmail">Email</label>
+                <input class="form-control" id="inputEmail" name="author" type="text" value="" aria-required="true" placeholder="Your Email">
+            </div>
+
+            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <label class="sr-only" for="inputWebsite">Website</label>
+                <input class="form-control" id="inputWebsite" name="author" type="text" value="" aria-required="true" placeholder="Your Website">
+            </div>
+
+            <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                <label class="sr-only" for="inputMessage">Message</label>
+                <textarea class="form-control" id="inputMessage" name="message" rows="8" aria-required="true" placeholder="Your Message"></textarea>
+            </div>
+
+            <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                <button class="btn btn-primary" name="submit" id="submit">Send Message</button>
+            </div>
+
+        </form>
+
+    </div><!-- #respond -->
+
+</div><!--/#comments-->
+{% endblock %}
+
+{% block breadcrumb %}
+{{ block.super }}
+<li class="active">{{ blog_post.title }}</li>
+{% endblock %}
+
+
+{% block blog_post_detail_postedby %}
+{% editable blog_post.publish_date %}
+<h6>
+    {% trans "Posted by" %}:
+    {% with blog_post.user as author %}
+    <a href="{% url "blog_post_list_author" author %}">{{ author.get_full_name|default:author.username }}</a>
+    {% endwith %}
+    {% blocktrans with sometime=blog_post.publish_date|timesince %}{{ sometime }} ago{% endblocktrans %}
+</h6>
+{% endeditable %}
+{% endblock %}
+{% block blog_post_detail_commentlink %}
+<p>
+    {% if blog_post.allow_comments %}
+        {% if settings.COMMENTS_DISQUS_SHORTNAME %}
+            (<a href="{{ blog_post.get_absolute_url }}#disqus_thread"
+                data-disqus-identifier="{% disqus_id_for blog_post %}">{% spaceless %}
+                {% trans "Comments" %}
+            {% endspaceless %}</a>)
+        {% else %}(<a href="#comments">{% spaceless %}
+            {% blocktrans count comments_count=blog_post.comments_count %}{{ comments_count }} comment{% plural %}{{ comments_count }} comments{% endblocktrans %}
+            {% endspaceless %}</a>)
+        {% endif %}
+    {% endif %}
+</p>
+{% endblock %}
+
+{% block blog_post_detail_featured_image %}
+{% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+<p><img src="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 600 0 %}"></p>
+{% endif %}
+{% endblock %}
+
+{% if settings.COMMENTS_DISQUS_SHORTNAME %}
+{% include "generic/includes/disqus_counts.html" %}
+{% endif %}
+
+{% block blog_post_detail_content %}
+{% editable blog_post.content %}
+{{ blog_post.content|richtext_filters|safe }}
+{% endeditable %}
+{% endblock %}
+
+{% block blog_post_detail_keywords %}
+{% keywords_for blog_post as tags %}
+{% if tags %}
+{% spaceless %}
+<ul class="unstyled tags">
+    <li>{% trans "Tags" %}:</li>
+    {% for tag in tags %}
+    <li><a href="{% url "blog_post_list_tag" tag.slug %}">{{ tag }}</a></li>
+    {% endfor %}
+</ul>
+{% endspaceless %}
+{% endif %}
+{% endblock %}
+
+{% rating_for blog_post %}
+
+{% block blog_post_detail_sharebuttons %}
+{% set_short_url_for blog_post %}
+<a class="btn small primary share-twitter" target="_blank" href="http://twitter.com/home?status={{ blog_post.short_url|urlencode }}%20{{ blog_post.title|urlencode }}">{% trans "Share on Twitter" %}</a>
+<a class="btn small primary share-facebook" target="_blank" href="http://facebook.com/sharer.php?u={{ request.build_absolute_uri }}&amp;t={{ blog_post.title|urlencode }}">{% trans "Share on Facebook" %}</a>
+{% endblock %}
+
+{% block blog_post_previous_next %}
+<ul class="pager">
+{% with blog_post.get_previous_by_publish_date as previous %}
+{% if previous %}
+<li class="previous">
+    <a href="{{ previous.get_absolute_url }}">&larr; {{ previous }}</a>
+</li>
+{% endif %}
+{% endwith %}
+{% with blog_post.get_next_by_publish_date as next %}
+{% if next %}
+<li class="next">
+    <a href="{{ next.get_absolute_url }}">{{ next }} &rarr;</a>
+</li>
+{% endif %}
+{% endwith %}
+</ul>
+{% endblock %}
+
+{% block blog_post_detail_related_posts %}
+{% if blog_post.related_posts.all %}
+<div id="related-posts">
+<h3>{% trans 'Related posts' %}</h3>
+<ul class="unstyled">
+{% for post in blog_post.related_posts.all %}
+     <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block blog_post_detail_comments %}
+{% if blog_post.allow_comments %}{% comments_for blog_post %}{% endif %}
+{% endblock %}
+

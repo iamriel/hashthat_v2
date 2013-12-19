@@ -1,0 +1,122 @@
+ssh ubuntu@192.241.195.42 -p 39900
+
+postgre server
+ssh ubuntu@192.241.231.66 -p 39900
+
+sudo /etc/init.d/apache2 reload
+
+
+192.241.195.42
+
+
+cpanel:
+
+fwsbio.com/cpanel
+user: jaysheng
+pass: Xuyao123
+
+SET VS90COMNTOOLS=%VS100COMNTOOLS%
+
+hashthat1234@gmail.com / pw is heyidiot2
+
+service_list = Service.objects.annotate(ratings_num=Count('ratings')).filter(ratings_num__gt=0).order_by('-ratings_num')
+
+
+
+alldealsleak
+ssh root@198.199.108.218 -p 39900
+Jaysheng111___
+psql -h 198.199.108.218 -U postgres -d daywatch_db
+
+192.241.206.57
+
+alldealsleak2
+ssh root@198.199.95.34 -p 39900
+becpigkmhqhy
+psql -h 198.199.95.34 -U postgres -d daywatch_db
+
+http://download-installer.cdn.mozilla.net/pub/mozilla.org/firefox/releases/24.0/linux-i686/en-US/firefox-24.0.tar.bz2
+
+alldealsleak3
+ssh ubuntu@192.241.223.167 -p 39900
+Alldealsleak123
+psql -h 192.241.223.167 -U postgres -d daywatch_db
+
+
+
+alldealsleak4
+ssh ubuntu@192.241.210.110 -p 39900
+Alldealsleak123
+psql -h 192.241.210.110 -U postgres -d daywatch_db
+
+
+
+alldealsleak5
+ssh ubuntu@192.241.195.42 -p 39900
+Alldealsleak123
+psql -h 192.241.195.42 -U postgres -d daywatch_db
+
+host    daywatch_db  postgres    192.241.206.57/24			md5
+
+alldealleak.com
+ssh ubuntu@192.241.210.41 -p 39900
+Alldealsleak123
+
+djangoserver
+ssh ubuntu@198.199.76.176 -p 39900
+Alldealsleak123
+
+
+python manage.py dumpdata --indent=4 > shipping_fixture.json
+
+root
+xidicdihhnhv
+
+sudo /etc/init.d/apache2 reload
+
+sync
+su
+echo 3 > /proc/sys/vm/drop_caches
+
+
+sudo apt-get update
+sudo apt-get install gfortran libopenblas-dev liblapack-dev
+sudo apt-get install python-numpy python-scipy
+sudo apt-get install postgresql postgresql-contrib
+sudo apt-get install python-psycopg2
+sudo apt-get install libpq-dev
+sudo apt-get install python-pip
+sudo apt-get install python-pip python-dev build-essential
+sudo apt-get install git
+sudo apt-get install python-dev
+sudo apt-get install libxml2-dev libxslt-dev
+
+
+pip install ftp://xmlsoft.org/libxml2/python/libxml2-python-2.6.21.tar.gz
+
+
+create topic branch for a feature to work on, git checkout -b name-of-topic-branch
+do some changes on topic branch
+commit changes, git commit -am 'message'
+fetch, git fetch origin
+git checkout dev
+git merge origin/dev
+git rebase dev name-of-topic-branch
+On conflicts:
+a. Resolve manually
+save changes
+git add -u
+git rebase --continue
+git checkout dev
+git merge name-of-topic-branch
+git push origin dev
+
+
+tail -f /var/log/syslog
+
+
+ssh ubuntu@192.241.229.184 -p 39900
+Alldealsleak123
+
+
+//*[@id="deals_container"]/ul/li[2]
